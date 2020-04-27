@@ -1,8 +1,18 @@
-import React from "react";
-import { StyleSheet, Text, Button, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
+import Modal from "react-native-modal";
 import { Feather } from "@expo/vector-icons";
 
 const ExerciseLibraryScreen = ({ navigation }) => {
+  const [modal, setModal] = useState(false);
+
+  const toggleModal = () => {
+    setModal(!modal);
+    if (modal) {
+      navigation.navigate("ExerciseLibrary");
+    }
+  };
+
   return (
     <>
       <Text style={{ fontSize: 48 }}>ExerciseLibraryScreen</Text>
@@ -10,6 +20,13 @@ const ExerciseLibraryScreen = ({ navigation }) => {
         title="Go to ExerciseDetail"
         onPress={() => navigation.navigate("ExerciseDetail")}
       />
+      <Button title="Delete exercise" onPress={toggleModal} />
+      <Modal isVisible={modal}>
+        <View style={styles.modal}>
+          <Text>Hello!</Text>
+          <Button title="Hide modal" onPress={toggleModal} />
+        </View>
+      </Modal>
     </>
   );
 };
@@ -27,6 +44,11 @@ ExerciseLibraryScreen.navigationOptions = ({ navigation }) => {
   };
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  modal: {
+    backgroundColor: "white",
+    borderRadius: 5,
+  },
+});
 
 export default ExerciseLibraryScreen;
