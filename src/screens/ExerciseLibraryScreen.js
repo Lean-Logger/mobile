@@ -1,5 +1,6 @@
 import React from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import { StyleSheet, Text, Button, TouchableOpacity } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
 const ExerciseLibraryScreen = ({ navigation }) => {
   return (
@@ -11,6 +12,19 @@ const ExerciseLibraryScreen = ({ navigation }) => {
       />
     </>
   );
+};
+
+ExerciseLibraryScreen.navigationOptions = ({ navigation }) => {
+  return {
+    headerRight: () => (
+      <TouchableOpacity
+        style={styles.headerIcon}
+        onPress={() => navigation.navigate("CreateExercise")}
+      >
+        <Feather name="plus" size={30} />
+      </TouchableOpacity>
+    ),
+  };
 };
 
 const styles = StyleSheet.create({});
