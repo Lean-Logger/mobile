@@ -1,19 +1,40 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import { createBottomTabNavigator } from "react-navigation-tabs";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>This is the beginning of the LeanLogger mobile app!</Text>
-    </View>
-  );
-}
+import SigninScreen from "./src/screens/SigninScreen";
+import ForgotPasswordScreen from "./src/screens/ForgotPasswordScreen";
+import SignupScreen from "./src/screens/SignupScreen";
+import HomeScreen from "./src/screens/HomeScreen";
+import SettingsScreen from "./src/screens/SettingsScreen";
+import EditProfileScreen from "./src/screens/EditProfileScreen";
+import ExerciseLibraryScreen from "./src/screens/ExerciseLibraryScreen";
+import ExerciseDetailScreen from "./src/screens/ExerciseDetailScreen";
+import EditExerciseScreen from "./src/screens/EditExerciseScreen";
+import RecordWorkoutScreen from "./src/screens/RecordWorkoutScreen";
+import CalendarScreen from "./src/screens/CalendarScreen";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+const switchNavigator = createSwitchNavigator({
+  loginFlow: createStackNavigator({
+    Signin: SigninScreen,
+    ForgotPassword: ForgotPasswordScreen,
+    Signup: SignupScreen,
+  }),
+  mainFlow: createBottomTabNavigator({
+    homeFlow: createStackNavigator({
+      Home: HomeScreen,
+      Settings: SettingsScreen,
+      EditProfile: EditProfileScreen,
+    }),
+    exerciseFlow: createStackNavigator({
+      ExerciseLibrary: ExerciseLibraryScreen,
+      ExerciseDetail: ExerciseDetailScreen,
+      EditExercise: EditExerciseScreen,
+    }),
+    RecordWorkout: RecordWorkoutScreen,
+    Calendar: CalendarScreen,
+  }),
 });
+
+export default createAppContainer(switchNavigator);
