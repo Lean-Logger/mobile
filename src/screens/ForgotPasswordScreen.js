@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import Modal from "react-native-modal";
 
 const ForgotPasswordScreen = ({ navigation }) => {
@@ -13,23 +19,78 @@ const ForgotPasswordScreen = ({ navigation }) => {
   };
 
   return (
-    <>
-      <Text style={{ fontSize: 48 }}>ForgotPasswordScreen</Text>
-      <Button title="Reset password" onPress={toggleModal} />
+    <View style={styles.page}>
+      <View style={styles.form}>
+        <Text style={styles.title}>Reset Password</Text>
+        <TextInput
+          autoCapitalize="none"
+          autoCorrect={false}
+          style={styles.input}
+          placeholder="Email Address"
+        />
+        <TouchableOpacity style={styles.button} onPress={toggleModal}>
+          <Text style={styles.link}>Reset Password</Text>
+        </TouchableOpacity>
+      </View>
       <Modal isVisible={modal}>
         <View style={styles.modal}>
-          <Text>Hello!</Text>
-          <Button title="Hide modal" onPress={toggleModal} />
+          <Text style={styles.modalText}>
+            Please check your inbox for an email containing instructions to
+            reset your password.
+          </Text>
+          <TouchableOpacity style={styles.button} onPress={toggleModal}>
+            <Text style={styles.link}>Dismiss</Text>
+          </TouchableOpacity>
         </View>
       </Modal>
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  page: {
+    flex: 1,
+    justifyContent: "space-around",
+  },
+  form: {
+    backgroundColor: "white",
+    paddingHorizontal: 40,
+    paddingVertical: 20,
+  },
+  title: {
+    fontSize: 34,
+    marginBottom: 20,
+    alignSelf: "center",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "black",
+    padding: 5,
+    marginBottom: 20,
+    fontSize: 22,
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#019ee1",
+    marginBottom: 10,
+    padding: 5,
+  },
+  link: {
+    fontSize: 18,
+    color: "#fff",
+  },
   modal: {
     backgroundColor: "white",
-    borderRadius: 5,
+    padding: 20,
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  link: {
+    fontSize: 18,
+    color: "#fff",
   },
 });
 
