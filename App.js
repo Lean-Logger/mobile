@@ -21,8 +21,10 @@ import LogsScreen from "./src/screens/LogsScreen";
 import LogDetailScreen from "./src/screens/LogDetailScreen";
 import EditLogScreen from "./src/screens/EditLogScreen";
 
+import { Provider as AuthProvider } from "./src/context/AuthContext";
+
 const switchNavigator = createSwitchNavigator({
-  loginFlow: createStackNavigator({
+  signinFlow: createStackNavigator({
     Signin: SigninScreen,
     ForgotPassword: ForgotPasswordScreen,
     Signup: SignupScreen,
@@ -53,4 +55,12 @@ const switchNavigator = createSwitchNavigator({
   }),
 });
 
-export default createAppContainer(switchNavigator);
+const App = createAppContainer(switchNavigator);
+
+export default () => {
+  return (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  );
+};

@@ -1,32 +1,68 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   View,
   Text,
-  CheckBox,
+  TextInput,
   TouchableOpacity,
 } from "react-native";
-import AuthForm from "../components/AuthForm";
+import { Context as AuthContext } from "../context/AuthContext";
 
 const SignupScreen = ({ navigation }) => {
+  const { state, signup } = useContext(AuthContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <View style={styles.page}>
       <View style={styles.form}>
         <Text style={styles.title}>Sign Up</Text>
-        <AuthForm />
-        <View style={styles.checkboxContainer}>
-          <CheckBox style={styles.checkbox} />
-          <Text>I read and agree to the Terms and Conditions.</Text>
-        </View>
+        {state.errorMessage ? (
+          <Text style={styles.error}>
+            Can't find a user with those details.
+          </Text>
+        ) : null}
+        <TextInput
+          autoCapitalize="none"
+          autoCorrect={false}
+          keyboardType="email-address"
+          onChangeText={setEmail}
+          placeholder="Email Address"
+          style={styles.input}
+          value={email}
+        />
+        <TextInput
+          autoCapitalize="none"
+          autoCorrect={false}
+          onChangeText={setPassword}
+          placeholder="Password"
+          secureTextEntry
+          style={styles.input}
+          value={password}
+        />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            signup({ email, password }, () => navigation.navigate("mainFlow"));
+          }}
+        >
+          <Text style={styles.link}>Sign up</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate("Signin")}
         >
-          <Text style={styles.link}>Sign up</Text>
+          <Text style={styles.link}>Cancel</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
+};
+
+SignupScreen.navigationOptions = () => {
+  return {
+    headerShown: false,
+  };
 };
 
 const styles = StyleSheet.create({
@@ -40,23 +76,22 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   title: {
+    textAlign: "center",
     fontSize: 34,
     marginBottom: 20,
-    alignSelf: "center",
   },
-  checkboxContainer: {
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
+  error: {
+    color: "#FF0000",
+    fontSize: 16,
+    marginBottom: 5,
+    textAlign: "center",
   },
-  checkbox: {
+  input: {
     borderWidth: 1,
     borderColor: "black",
-    height: 20,
-    width: 20,
-    marginRight: 10,
+    fontSize: 22,
+    padding: 5,
+    marginBottom: 20,
   },
   button: {
     alignItems: "center",
@@ -65,8 +100,8 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   link: {
-    fontSize: 18,
     color: "#fff",
+    fontSize: 18,
   },
 });
 

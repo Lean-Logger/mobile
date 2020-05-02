@@ -9,6 +9,7 @@ import {
 import Modal from "react-native-modal";
 
 const ForgotPasswordScreen = ({ navigation }) => {
+  const [email, setEmail] = useState("");
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => {
@@ -25,11 +26,20 @@ const ForgotPasswordScreen = ({ navigation }) => {
         <TextInput
           autoCapitalize="none"
           autoCorrect={false}
-          style={styles.input}
+          keyboardType="email-address"
+          onChangeText={setEmail}
           placeholder="Email Address"
+          style={styles.input}
+          value={email}
         />
         <TouchableOpacity style={styles.button} onPress={toggleModal}>
           <Text style={styles.link}>Reset Password</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Signin")}
+        >
+          <Text style={styles.link}>Cancel</Text>
         </TouchableOpacity>
       </View>
       <Modal isVisible={modal}>
@@ -45,6 +55,12 @@ const ForgotPasswordScreen = ({ navigation }) => {
       </Modal>
     </View>
   );
+};
+
+ForgotPasswordScreen.navigationOptions = () => {
+  return {
+    headerShown: false,
+  };
 };
 
 const styles = StyleSheet.create({

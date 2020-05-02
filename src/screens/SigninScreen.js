@@ -1,13 +1,36 @@
-import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import AuthForm from "../components/AuthForm";
 
 const SigninScreen = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const error = false;
+
   return (
     <View style={styles.page}>
       <View style={styles.form}>
         <Text style={styles.title}>Sign In</Text>
+        {error ? (
+          <Text style={styles.error}>
+            Can't find a user with those details.
+          </Text>
+        ) : null}
         <AuthForm />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("mainFlow");
+          }}
+        >
+          <Text style={styles.link}>Sign In</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate("ForgotPassword")}
@@ -20,15 +43,15 @@ const SigninScreen = ({ navigation }) => {
         >
           <Text style={styles.link}>No account? Tap here to sign up</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Home")}
-        >
-          <Text style={styles.link}>Sign In</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
+};
+
+SigninScreen.navigationOptions = () => {
+  return {
+    headerShown: false,
+  };
 };
 
 const styles = StyleSheet.create({
@@ -42,9 +65,22 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   title: {
+    textAlign: "center",
     fontSize: 34,
     marginBottom: 20,
-    alignSelf: "center",
+  },
+  error: {
+    color: "#FF0000",
+    fontSize: 16,
+    marginBottom: 5,
+    textAlign: "center",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "black",
+    fontSize: 22,
+    padding: 5,
+    marginBottom: 20,
   },
   button: {
     alignItems: "center",
@@ -53,8 +89,8 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   link: {
-    fontSize: 18,
     color: "#fff",
+    fontSize: 18,
   },
 });
 

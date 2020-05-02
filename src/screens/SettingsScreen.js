@@ -13,7 +13,7 @@ const SettingsScreen = ({ navigation }) => {
   const signOut = () => {
     setSignOutModal(!signOutModal);
     if (signOutModal) {
-      navigation.navigate("loginFlow");
+      navigation.navigate("signinFlow");
     }
   };
 
