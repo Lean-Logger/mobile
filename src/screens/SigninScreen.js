@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import AuthForm from "../components/AuthForm";
 
 const SigninScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -22,7 +21,24 @@ const SigninScreen = ({ navigation }) => {
             Can't find a user with those details.
           </Text>
         ) : null}
-        <AuthForm />
+        <TextInput
+          autoCapitalize="none"
+          autoCorrect={false}
+          keyboardType="email-address"
+          onChangeText={setEmail}
+          placeholder="Email Address"
+          style={styles.input}
+          value={email}
+        />
+        <TextInput
+          autoCapitalize="none"
+          autoCorrect={false}
+          onChangeText={setPassword}
+          placeholder="Password"
+          secureTextEntry
+          style={styles.input}
+          value={password}
+        />
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
