@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
+import { Context as AuthContext } from "../context/AuthContext";
 
 const SettingsScreen = ({ navigation }) => {
+  const { state, signout } = useContext(AuthContext);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [signOutModal, setSignOutModal] = useState(false);
 
   const toggleModal = () => {
-    setSignOutModal(!signOutModal);
+    console.log(state.token);
+    setDeleteModal(!deleteModal);
   };
 
-  const signOut = () => {
-    setSignOutModal(!signOutModal);
-    if (signOutModal) {
+  const deleteAccount = () => {
+    setDeleteModal(!deleteModal);
+    if (deleteModal) {
       navigation.navigate("signinFlow");
     }
   };
@@ -30,34 +32,25 @@ const SettingsScreen = ({ navigation }) => {
       </TouchableOpacity>
       <Modal isVisible={deleteModal}>
         <View style={styles.modal}>
-          <Text style={styles.modalText}>Hello!</Text>
-          <TouchableOpacity
-            style={styles.button}
-            title="Hide modal"
-            onPress={toggleModal}
-          >
-            <Text style={styles.link}></Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-      <TouchableOpacity style={styles.button} onPress={toggleModal}>
-        <Text style={styles.link}>Sign out</Text>
-      </TouchableOpacity>
-      <Modal isVisible={signOutModal}>
-        <View style={styles.modal}>
           <Text style={styles.modalText}>
-            Are you sure you would like to sign out of your account?
+            Are you sure you would like to delete your account?
           </Text>
           <View style={styles.buttons}>
             <TouchableOpacity style={styles.button} onPress={toggleModal}>
               <Text style={styles.link}>Cancel</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={signOut}>
-              <Text style={styles.link}>Sign Out</Text>
+            <TouchableOpacity style={styles.button} onPress={deleteAccount}>
+              <Text style={styles.link}>Delete Account</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("mainFlow")}
+      >
+        <Text style={styles.link}>Sign out</Text>
+      </TouchableOpacity>
     </>
   );
 };

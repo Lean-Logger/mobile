@@ -9,9 +9,10 @@ import {
 import { Context as AuthContext } from "../context/AuthContext";
 
 const SignupScreen = ({ navigation }) => {
-  const { state, signup } = useContext(AuthContext);
+  const { state, signup, signin } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const opt_in = 1;
 
   return (
     <View style={styles.page}>
@@ -43,7 +44,11 @@ const SignupScreen = ({ navigation }) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            signup({ email, password }, () => navigation.navigate("mainFlow"));
+            signup({ email, password, opt_in }, () => {
+              signin({ email, password }, () =>
+                navigation.navigate("mainFlow")
+              );
+            });
           }}
         >
           <Text style={styles.link}>Sign up</Text>

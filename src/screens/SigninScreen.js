@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   View,
@@ -6,8 +6,10 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import { Context as AuthContext } from "../context/AuthContext";
 
 const SigninScreen = ({ navigation }) => {
+  const { state, signin } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const error = false;
@@ -42,7 +44,7 @@ const SigninScreen = ({ navigation }) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            navigation.navigate("mainFlow");
+            signin({ email, password }, () => navigation.navigate("mainFlow"));
           }}
         >
           <Text style={styles.link}>Sign In</Text>

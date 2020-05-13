@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "",
+  baseURL: "http://leanlogger.cannycode.co.uk/api",
 });
