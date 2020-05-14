@@ -15,7 +15,7 @@ const SettingsScreen = ({ navigation }) => {
   const deleteAccount = () => {
     setDeleteModal(!deleteModal);
     if (deleteModal) {
-      navigation.navigate("signinFlow");
+      navigation.navigate("Login");
     }
   };
 
@@ -47,7 +47,7 @@ const SettingsScreen = ({ navigation }) => {
       </Modal>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("mainFlow")}
+        onPress={() => navigation.navigate("Login")}
       >
         <Text style={styles.link}>Sign out</Text>
       </TouchableOpacity>

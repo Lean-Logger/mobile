@@ -8,14 +8,14 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 
-const ForgotPasswordScreen = ({ navigation }) => {
+const ResetPasswordScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => {
     setModal(!modal);
     if (modal) {
-      navigation.navigate("Signin");
+      navigation.navigate("Login");
     }
   };
 
@@ -37,7 +37,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("Signin")}
+          onPress={() => navigation.navigate("Login")}
         >
           <Text style={styles.link}>Cancel</Text>
         </TouchableOpacity>
@@ -57,7 +57,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
   );
 };
 
-ForgotPasswordScreen.navigationOptions = () => {
+ResetPasswordScreen.navigationOptions = () => {
   return {
     headerShown: false,
   };
@@ -110,4 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ForgotPasswordScreen;
+export default ResetPasswordScreen;

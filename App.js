@@ -3,9 +3,9 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 
-import SigninScreen from "./src/screens/SigninScreen";
-import ForgotPasswordScreen from "./src/screens/ForgotPasswordScreen";
-import SignupScreen from "./src/screens/SignupScreen";
+import LoginScreen from "./src/screens/LoginScreen";
+import ResetPasswordScreen from "./src/screens/ResetPasswordScreen";
+import RegisterScreen from "./src/screens/RegisterScreen";
 import HomeScreen from "./src/screens/HomeScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import EditProfileScreen from "./src/screens/EditProfileScreen";
@@ -24,10 +24,10 @@ import EditLogScreen from "./src/screens/EditLogScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 
 const switchNavigator = createSwitchNavigator({
-  signinFlow: createStackNavigator({
-    Signin: SigninScreen,
-    ForgotPassword: ForgotPasswordScreen,
-    Signup: SignupScreen,
+  loginFlow: createStackNavigator({
+    Login: LoginScreen,
+    ResetPassword: ResetPasswordScreen,
+    Register: RegisterScreen,
   }),
   mainFlow: createBottomTabNavigator({
     homeFlow: createStackNavigator({

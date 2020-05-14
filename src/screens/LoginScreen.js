@@ -8,20 +8,18 @@ import {
 } from "react-native";
 import { Context as AuthContext } from "../context/AuthContext";
 
-const SignupScreen = ({ navigation }) => {
-  const { state, signup, signin } = useContext(AuthContext);
+const LoginScreen = ({ navigation }) => {
+  const { state, login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const opt_in = 1;
+  const error = false;
 
   return (
     <View style={styles.page}>
       <View style={styles.form}>
-        <Text style={styles.title}>Sign Up</Text>
+        <Text style={styles.title}>Welcome to Lean Logger</Text>
         {state.errorMessage ? (
-          <Text style={styles.error}>
-            Can't find a user with those details.
-          </Text>
+          <Text style={styles.error}>{state.errorMessage}</Text>
         ) : null}
         <TextInput
           autoCapitalize="none"
@@ -44,27 +42,29 @@ const SignupScreen = ({ navigation }) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            signup({ email, password, opt_in }, () => {
-              signin({ email, password }, () =>
-                navigation.navigate("mainFlow")
-              );
-            });
+            login({ email, password }, () => navigation.navigate("Home"));
           }}
         >
-          <Text style={styles.link}>Sign up</Text>
+          <Text style={styles.link}>Log In</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("Signin")}
+          onPress={() => navigation.navigate("ResetPassword")}
         >
-          <Text style={styles.link}>Cancel</Text>
+          <Text style={styles.link}>Forgot password? Reset password here</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Register")}
+        >
+          <Text style={styles.link}>No account? Register here</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-SignupScreen.navigationOptions = () => {
+LoginScreen.navigationOptions = () => {
   return {
     headerShown: false,
   };
@@ -110,4 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignupScreen;
+export default LoginScreen;

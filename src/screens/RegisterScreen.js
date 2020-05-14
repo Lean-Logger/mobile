@@ -5,23 +5,26 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Switch,
 } from "react-native";
 import { Context as AuthContext } from "../context/AuthContext";
 
-const SigninScreen = ({ navigation }) => {
-  const { state, signin } = useContext(AuthContext);
+const RegisterScreen = ({ navigation }) => {
+  const { state, register, signin } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const error = false;
+  const [opt_in, setOpt_in] = useState(false);
+
+  const toggleOptIn = () => {
+    setOpt_in(!opt_in);
+  };
 
   return (
     <View style={styles.page}>
       <View style={styles.form}>
-        <Text style={styles.title}>Sign In</Text>
-        {error ? (
-          <Text style={styles.error}>
-            Can't find a user with those details.
-          </Text>
+        <Text style={styles.title}>Register for Lean Logger</Text>
+        {state.errorMessage ? (
+          <Text style={styles.error}>{state.errorMessage}</Text>
         ) : null}
         <TextInput
           autoCapitalize="none"
@@ -41,32 +44,36 @@ const SigninScreen = ({ navigation }) => {
           style={styles.input}
           value={password}
         />
+        <View style={styles.terms}>
+          <Text>I agree to the Terms and Conditions</Text>
+          <Switch
+            onValueChange={setOpt_in}
+            style={styles.switch}
+            value={opt_in}
+          />
+        </View>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            signin({ email, password }, () => navigation.navigate("mainFlow"));
+            register({ email, password, opt_in }, () =>
+              navigation.navigate("Home")
+            );
           }}
         >
-          <Text style={styles.link}>Sign In</Text>
+          <Text style={styles.link}>Register</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("ForgotPassword")}
+          onPress={() => navigation.navigate("Login")}
         >
-          <Text style={styles.link}>Forgot password? Tap here to reset</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Signup")}
-        >
-          <Text style={styles.link}>No account? Tap here to sign up</Text>
+          <Text style={styles.link}>Cancel</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-SigninScreen.navigationOptions = () => {
+RegisterScreen.navigationOptions = () => {
   return {
     headerShown: false,
   };
@@ -100,6 +107,14 @@ const styles = StyleSheet.create({
     padding: 5,
     marginBottom: 20,
   },
+  terms: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  switch: {
+    marginLeft: 5,
+  },
   button: {
     alignItems: "center",
     backgroundColor: "#019ee1",
@@ -112,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SigninScreen;
+export default RegisterScreen;
