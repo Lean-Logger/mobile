@@ -33,9 +33,6 @@ const login = (dispatch) => async ({ email, password }) => {
         type: "update_token",
         payload: response.data.login_token,
       });
-      console.log(
-        "Logged in: " + loginDetails.email + " : " + response.data.login_token
-      );
       navigate("Home");
     } catch (err) {
       switch (err.response.status) {
@@ -112,7 +109,6 @@ const register = (dispatch) => async (
         type: "update_token",
         payload: loginResponse.data.login_token,
       });
-      console.log("Registered as: " + registerDetails.email);
       navigate("Home");
     } catch (err) {
       switch (err.response.status) {
@@ -174,7 +170,6 @@ const register = (dispatch) => async (
 
 const logout = (dispatch) => async (callback) => {
   const token = await AsyncStorage.getItem("token");
-  console.log(token);
   try {
     const response = await leanLoggerApi.post(
       "/logout",
@@ -190,10 +185,8 @@ const logout = (dispatch) => async (callback) => {
       payload: "",
     });
     await AsyncStorage.removeItem(token);
-    console.log("Logged out: " + token);
     navigate("Login");
   } catch (err) {
-    console.log(err.response);
     dispatch({
       type: "update_error",
       payload: "Something went wrong with log out",
@@ -212,7 +205,6 @@ const requestpasswordreset = (dispatch) => async (email) => {
         payload:
           "Please check your inbox for an email containing instructions on how to reset your password.",
       });
-      console.log("Password reset request for: " + email);
     } catch (err) {
       dispatch({
         type: "update_error",
@@ -243,7 +235,6 @@ const passwordreset = (dispatch) => async (email) => {
         payload:
           "Please check your inbox for an email containing instructions on how to reset your password.",
       });
-      console.log("Password reset request for: " + email);
     } catch (err) {
       dispatch({
         type: "update_error",
