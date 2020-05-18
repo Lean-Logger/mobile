@@ -2,9 +2,11 @@ import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
+import { setNavigator } from "./src/navigationRef";
 
 import LoginScreen from "./src/screens/LoginScreen";
-import ResetPasswordScreen from "./src/screens/ResetPasswordScreen";
+import RequestPasswordResetScreen from "./src/screens/RequestPasswordResetScreen";
+import PasswordResetScreen from "./src/screens/PasswordResetScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import HomeScreen from "./src/screens/HomeScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
@@ -26,7 +28,8 @@ import { Provider as AuthProvider } from "./src/context/AuthContext";
 const switchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
     Login: LoginScreen,
-    ResetPassword: ResetPasswordScreen,
+    RequestPasswordReset: RequestPasswordResetScreen,
+    PasswordReset: PasswordResetScreen,
     Register: RegisterScreen,
   }),
   mainFlow: createBottomTabNavigator({
@@ -60,7 +63,11 @@ const App = createAppContainer(switchNavigator);
 export default () => {
   return (
     <AuthProvider>
-      <App />
+      <App
+        ref={(navigator) => {
+          setNavigator(navigator);
+        }}
+      />
     </AuthProvider>
   );
 };

@@ -4,17 +4,19 @@ import Modal from "react-native-modal";
 import { Context as AuthContext } from "../context/AuthContext";
 
 const SettingsScreen = ({ navigation }) => {
-  const { state, signout } = useContext(AuthContext);
+  const { state, logout } = useContext(AuthContext);
   const [deleteModal, setDeleteModal] = useState(false);
 
+  const token = state.token;
+
   const toggleModal = () => {
-    console.log(state.token);
     setDeleteModal(!deleteModal);
   };
 
   const deleteAccount = () => {
     setDeleteModal(!deleteModal);
     if (deleteModal) {
+      console.log(token);
       navigation.navigate("Login");
     }
   };
@@ -47,7 +49,9 @@ const SettingsScreen = ({ navigation }) => {
       </Modal>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => {
+          logout();
+        }}
       >
         <Text style={styles.link}>Sign out</Text>
       </TouchableOpacity>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   View,
@@ -7,8 +7,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Modal from "react-native-modal";
+import { Context as AuthContext } from "../context/AuthContext";
 
-const ResetPasswordScreen = ({ navigation }) => {
+const RequestPasswordResetScreen = ({ navigation }) => {
+  const { state, requestpasswordreset } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [modal, setModal] = useState(false);
 
@@ -23,6 +25,12 @@ const ResetPasswordScreen = ({ navigation }) => {
     <View style={styles.page}>
       <View style={styles.form}>
         <Text style={styles.title}>Reset Password</Text>
+        {state.alertMessage ? (
+          <Text style={styles.alert}>{state.alertMessage}</Text>
+        ) : null}
+        {state.errorMessage ? (
+          <Text style={styles.error}>{state.errorMessage}</Text>
+        ) : null}
         <TextInput
           autoCapitalize="none"
           autoCorrect={false}
@@ -32,7 +40,12 @@ const ResetPasswordScreen = ({ navigation }) => {
           style={styles.input}
           value={email}
         />
-        <TouchableOpacity style={styles.button} onPress={toggleModal}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            requestpasswordreset(email, () => toggleModal);
+          }}
+        >
           <Text style={styles.link}>Reset Password</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -57,7 +70,7 @@ const ResetPasswordScreen = ({ navigation }) => {
   );
 };
 
-ResetPasswordScreen.navigationOptions = () => {
+RequestPasswordResetScreen.navigationOptions = () => {
   return {
     headerShown: false,
   };
@@ -77,6 +90,17 @@ const styles = StyleSheet.create({
     fontSize: 34,
     marginBottom: 20,
     alignSelf: "center",
+  },
+  alert: {
+    fontSize: 16,
+    marginBottom: 5,
+    textAlign: "center",
+  },
+  error: {
+    color: "#FF0000",
+    fontSize: 16,
+    marginBottom: 5,
+    textAlign: "center",
   },
   input: {
     borderWidth: 1,
@@ -110,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ResetPasswordScreen;
+export default RequestPasswordResetScreen;

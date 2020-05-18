@@ -55,9 +55,7 @@ const RegisterScreen = ({ navigation }) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            register({ email, password, opt_in }, () =>
-              navigation.navigate("Home")
-            );
+            register({ email, password, opt_in });
           }}
         >
           <Text style={styles.link}>Register</Text>

@@ -8,28 +8,21 @@ import {
 } from "react-native";
 import { Context as AuthContext } from "../context/AuthContext";
 
-const LoginScreen = ({ navigation }) => {
-  const { state, login } = useContext(AuthContext);
-  const [email, setEmail] = useState("");
+const PasswordResetScreen = ({ navigation }) => {
+  const { state, passwordreset } = useContext(AuthContext);
   const [password, setPassword] = useState("");
-  const error = false;
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   return (
     <View style={styles.page}>
       <View style={styles.form}>
-        <Text style={styles.title}>Welcome to Lean Logger</Text>
+        <Text style={styles.title}>Reset Password</Text>
+        {state.alertMessage ? (
+          <Text style={styles.alert}>{state.alertMessage}</Text>
+        ) : null}
         {state.errorMessage ? (
           <Text style={styles.error}>{state.errorMessage}</Text>
         ) : null}
-        <TextInput
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboardType="email-address"
-          onChangeText={setEmail}
-          placeholder="Email Address"
-          style={styles.input}
-          value={email}
-        />
         <TextInput
           autoCapitalize="none"
           autoCorrect={false}
@@ -39,32 +32,27 @@ const LoginScreen = ({ navigation }) => {
           style={styles.input}
           value={password}
         />
+        <TextInput
+          autoCapitalize="none"
+          autoCorrect={false}
+          onChangeText={setPasswordConfirmation}
+          placeholder="Password"
+          secureTextEntry
+          style={styles.input}
+          value={passwordConfirmation}
+        />
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {
-            login({ email, password });
-          }}
+          onPress={console.log("Password reset")}
         >
-          <Text style={styles.link}>Log In</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("PasswordReset")}
-        >
-          <Text style={styles.link}>Forgot password? Reset password here</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Register")}
-        >
-          <Text style={styles.link}>No account? Register here</Text>
+          <Text style={styles.link}>Reset Password</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-LoginScreen.navigationOptions = () => {
+PasswordResetScreen.navigationOptions = () => {
   return {
     headerShown: false,
   };
@@ -81,9 +69,14 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   title: {
-    textAlign: "center",
     fontSize: 34,
     marginBottom: 20,
+    alignSelf: "center",
+  },
+  alert: {
+    fontSize: 16,
+    marginBottom: 5,
+    textAlign: "center",
   },
   error: {
     color: "#FF0000",
@@ -94,9 +87,9 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: "black",
-    fontSize: 22,
     padding: 5,
     marginBottom: 20,
+    fontSize: 22,
   },
   button: {
     alignItems: "center",
@@ -105,9 +98,22 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   link: {
-    color: "#fff",
     fontSize: 18,
+    color: "#fff",
+  },
+  modal: {
+    backgroundColor: "white",
+    padding: 20,
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  link: {
+    fontSize: 18,
+    color: "#fff",
   },
 });
 
-export default LoginScreen;
+export default PasswordResetScreen;
