@@ -187,7 +187,7 @@ exports[`renders correctly 1`] = `
                             }
                           }
                         >
-                          Sign In
+                          Welcome to Lean Logger
                         </Text>
                         <TextInput
                           allowFontScaling={true}
@@ -258,7 +258,7 @@ exports[`renders correctly 1`] = `
                               }
                             }
                           >
-                            Sign In
+                            Log In
                           </Text>
                         </View>
                         <View
@@ -290,7 +290,7 @@ exports[`renders correctly 1`] = `
                               }
                             }
                           >
-                            Forgot password? Tap here to reset
+                            Forgot password? Reset password here
                           </Text>
                         </View>
                         <View
@@ -322,7 +322,7 @@ exports[`renders correctly 1`] = `
                               }
                             }
                           >
-                            No account? Tap here to sign up
+                            No account? Register here
                           </Text>
                         </View>
                       </View>
