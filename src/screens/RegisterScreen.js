@@ -107,8 +107,9 @@ const styles = StyleSheet.create({
   },
   terms: {
     flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 20,
   },
   switch: {
     marginLeft: 5,

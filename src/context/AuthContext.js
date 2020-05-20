@@ -9,8 +9,6 @@ const authReducer = (state, action) => {
       return { ...state, errorMessage: action.payload, alertMessage: "" };
     case "update_alert":
       return { ...state, errorMessage: "", alertMessage: action.payload };
-    case "update_token":
-      return { errorMessage: "", token: action.payload };
     default:
       return state;
   }
@@ -30,8 +28,8 @@ const login = (dispatch) => async ({ email, password }) => {
       const response = await leanLoggerApi.post("/login", loginDetails);
       await AsyncStorage.setItem("token", response.data.login_token);
       dispatch({
-        type: "update_token",
-        payload: response.data.login_token,
+        type: "update_error",
+        payload: "",
       });
       navigate("Home");
     } catch (err) {
@@ -45,7 +43,7 @@ const login = (dispatch) => async ({ email, password }) => {
         case 422:
           dispatch({
             type: "update_error",
-            payload: "Please provide a valid email address.",
+            payload: "Please enter a valid email address.",
           });
           break;
         case 500:
@@ -57,7 +55,7 @@ const login = (dispatch) => async ({ email, password }) => {
         default:
           dispatch({
             type: "update_error",
-            payload: "Something went wrong with log in",
+            payload: "Something went wrong with log in.",
           });
       }
     }
@@ -65,13 +63,12 @@ const login = (dispatch) => async ({ email, password }) => {
     if (loginDetails.email === "" || loginDetails.password === "") {
       dispatch({
         type: "update_error",
-        payload:
-          "Please ensure you have filled out both your email address and password.",
+        payload: "Please enter an email address and password.",
       });
     } else {
       dispatch({
         type: "update_error",
-        payload: "Please provide a valid email address.",
+        payload: "Please enter a valid email address.",
       });
     }
   }
@@ -106,8 +103,8 @@ const register = (dispatch) => async (
       });
       await AsyncStorage.setItem("token", loginResponse.data.login_token);
       dispatch({
-        type: "update_token",
-        payload: loginResponse.data.login_token,
+        type: "update_error",
+        payload: "",
       });
       navigate("Home");
     } catch (err) {
@@ -143,7 +140,7 @@ const register = (dispatch) => async (
         default:
           dispatch({
             type: "update_error",
-            payload: "Something went wrong with log in",
+            payload: "Something went wrong with register.",
           });
       }
     }
@@ -151,18 +148,17 @@ const register = (dispatch) => async (
     if (registerDetails.email === "" || registerDetails.password === "") {
       dispatch({
         type: "update_error",
-        payload:
-          "Please ensure you have filled out both your email address and password.",
+        payload: "Please enter an email address and a password.",
       });
     } else if (!emailCheck.test(String(registerDetails.email).toLowerCase())) {
       dispatch({
         type: "update_error",
-        payload: "Please provide a valid email address.",
+        payload: "Please enter a valid email address.",
       });
     } else if (registerDetails.opt_in !== 1) {
       dispatch({
         type: "update_error",
-        payload: "Please ensure you have agreed to the Terms and Conditions.",
+        payload: "Please agree to the Terms and Conditions.",
       });
     }
   }
@@ -257,5 +253,5 @@ const passwordreset = (dispatch) => async (email) => {
 export const { Provider, Context } = createDataContext(
   authReducer,
   { login, register, logout, requestpasswordreset, requestpasswordreset },
-  { token: null, errorMessage: "", alertMessage: "" }
+  { errorMessage: "", alertMessage: "" }
 );

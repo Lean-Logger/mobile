@@ -12,7 +12,6 @@ const LoginScreen = ({ navigation }) => {
   const { state, login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const error = false;
 
   return (
     <View style={styles.page}>
