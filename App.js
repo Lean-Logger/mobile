@@ -24,6 +24,7 @@ import LogDetailScreen from "./src/screens/LogDetailScreen";
 import EditLogScreen from "./src/screens/EditLogScreen";
 
 import { Provider as AuthProvider } from "./src/context/AuthContext";
+import { Provider as ExerciseProvider } from "./src/context/ExerciseContext";
 
 const switchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
@@ -62,12 +63,14 @@ const App = createAppContainer(switchNavigator);
 
 export default () => {
   return (
-    <AuthProvider>
-      <App
-        ref={(navigator) => {
-          setNavigator(navigator);
-        }}
-      />
-    </AuthProvider>
+    <ExerciseProvider>
+      <AuthProvider>
+        <App
+          ref={(navigator) => {
+            setNavigator(navigator);
+          }}
+        />
+      </AuthProvider>
+    </ExerciseProvider>
   );
 };
