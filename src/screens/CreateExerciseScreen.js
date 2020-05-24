@@ -5,15 +5,15 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Picker,
 } from "react-native";
-import { Picker } from "@react-native-community/picker";
 import { Context as ExerciseContext } from "../context/ExerciseContext";
 
 const CreateExerciseScreen = () => {
   const { state, createExercise } = useContext(ExerciseContext);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [type, setType] = useState("");
+  const [type, setType] = useState("weighted_reps");
 
   return (
     <View style={styles.page}>
@@ -36,14 +36,13 @@ const CreateExerciseScreen = () => {
           value={description}
         />
         <Text style={styles.label}>Type:</Text>
-        <View style={styles.input}>
+        <View style={styles.pickerInput}>
           <Picker
-            itemStyle={{ fontSize: 32, color: "red" }}
-            selectedValue={type}
-            style={{ color: "black", height: 35 }}
+            itemStyle={styles.pickerItem}
             onValueChange={setType}
+            selectedValue={type}
+            style={styles.picker}
           >
-            <Picker.Item label="Select type..." value="" />
             <Picker.Item label="Weighted reps" value="weighted_reps" />
             <Picker.Item label="Non-weighted reps" value="non_weighted_reps" />
             <Picker.Item label="Duration" value="duration" />
@@ -95,7 +94,19 @@ const styles = StyleSheet.create({
     padding: 5,
     marginBottom: 20,
   },
-  picker: {},
+  pickerInput: {
+    borderWidth: 1,
+    borderColor: "black",
+    marginBottom: 20,
+  },
+  picker: {
+    height: 52,
+  },
+  pickerItem: {
+    height: 50,
+    borderWidth: 4,
+    borderColor: "white",
+  },
   button: {
     alignItems: "center",
     backgroundColor: "#019ee1",
