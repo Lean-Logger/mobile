@@ -5,6 +5,8 @@ import { navigate } from "../navigationRef";
 
 const authReducer = (state, action) => {
   switch (action.type) {
+    case "clear_error":
+      return { ...state, errorMessage: action.payload, alertMessage: "" };
     case "update_error":
       return { ...state, errorMessage: action.payload, alertMessage: "" };
     case "update_alert":
@@ -28,7 +30,7 @@ const login = (dispatch) => async ({ email, password }) => {
       const response = await leanLoggerApi.post("/login", loginDetails);
       await AsyncStorage.setItem("token", response.data.login_token);
       dispatch({
-        type: "update_error",
+        type: "clear_error",
         payload: "",
       });
       navigate("Home");
@@ -103,7 +105,7 @@ const register = (dispatch) => async (
       });
       await AsyncStorage.setItem("token", loginResponse.data.login_token);
       dispatch({
-        type: "update_error",
+        type: "clear_error",
         payload: "",
       });
       navigate("Home");
@@ -176,10 +178,6 @@ const logout = (dispatch) => async (callback) => {
         },
       }
     );
-    dispatch({
-      type: "update_token",
-      payload: "",
-    });
     await AsyncStorage.removeItem(token);
     navigate("Login");
   } catch (err) {

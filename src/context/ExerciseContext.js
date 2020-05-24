@@ -5,6 +5,8 @@ import { navigate } from "../navigationRef";
 
 const exerciseReducer = (state, action) => {
   switch (action.type) {
+    case "clear_error":
+      return { ...state, errorMessage: action.payload };
     case "update_error":
       return { ...state, errorMessage: action.payload };
     default:
@@ -24,7 +26,7 @@ const createExercise = (dispatch) => async ({ name, description, type }) => {
         },
       });
       dispatch({
-        type: "update_error",
+        type: "clear_error",
         payload: "",
       });
       navigate("ExerciseLibrary");
