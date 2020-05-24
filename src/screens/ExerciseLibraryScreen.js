@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
 import { Feather } from "@expo/vector-icons";
+import { Context as ExerciseContext } from "../context/ExerciseContext";
 
 const ExerciseLibraryScreen = ({ navigation }) => {
   const [modal, setModal] = useState(false);
+  const { state, getExercises } = useContext(ExerciseContext);
+
+  useEffect(() => {
+    getExercises();
+  }, []);
 
   const toggleModal = () => {
     setModal(!modal);

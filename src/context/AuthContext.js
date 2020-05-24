@@ -76,10 +76,7 @@ const login = (dispatch) => async ({ email, password }) => {
   }
 };
 
-const register = (dispatch) => async (
-  { email, password, opt_in },
-  callback
-) => {
+const register = (dispatch) => async ({ email, password, opt_in }) => {
   let registerDetails = { email, password, opt_in };
 
   if (registerDetails.opt_in) {
@@ -166,7 +163,7 @@ const register = (dispatch) => async (
   }
 };
 
-const logout = (dispatch) => async (callback) => {
+const logout = (dispatch) => async () => {
   const token = await AsyncStorage.getItem("token");
   try {
     const response = await leanLoggerApi.post(

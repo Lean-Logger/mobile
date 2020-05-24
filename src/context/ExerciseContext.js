@@ -104,8 +104,27 @@ const createExercise = (dispatch) => async ({ name, description, type }) => {
   }
 };
 
+const getExercises = (dispatch) => async () => {
+  const token = await AsyncStorage.getItem("token");
+  console.log(token);
+  try {
+    const response = await leanLoggerApi.get(
+      "/exercises",
+      {},
+      {
+        headers: {
+          "X-Login-Token": token,
+        },
+      }
+    );
+    console.log(response.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const { Provider, Context } = createDataContext(
   exerciseReducer,
-  { createExercise },
-  { errorMessage: "" }
+  { createExercise, getExercises },
+  { errorMessage: "", exercises: {} }
 );
