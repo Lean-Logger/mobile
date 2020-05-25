@@ -9,6 +9,10 @@ const exerciseReducer = (state, action) => {
       return { ...state, errorMessage: action.payload };
     case "update_error":
       return { ...state, errorMessage: action.payload };
+    case "get_exercises":
+      return { ...state, exercises: action.payload, errorMessage: "" };
+    case "set_loading":
+      return { ...state, loading: action.payload };
     default:
       return state;
   }
@@ -30,6 +34,10 @@ const createExercise = (dispatch) => async ({ name, description, type }) => {
         payload: "",
       });
       navigate("ExerciseLibrary");
+      dispatch({
+        type: "set_loading",
+        payload: true,
+      });
     } catch (err) {
       const response = err.response;
 
@@ -105,26 +113,44 @@ const createExercise = (dispatch) => async ({ name, description, type }) => {
 };
 
 const getExercises = (dispatch) => async () => {
+  dispatch({
+    type: "set_loading",
+    payload: true,
+  });
   const token = await AsyncStorage.getItem("token");
-  console.log(token);
   try {
-    const response = await leanLoggerApi.get(
-      "/exercises",
-      {},
-      {
-        headers: {
-          "X-Login-Token": token,
-        },
-      }
-    );
-    console.log(response.data);
+    const response = await leanLoggerApi.get("/exercises", {
+      headers: {
+        "X-Login-Token": token,
+      },
+    });
+    dispatch({
+      type: "get_exercises",
+      payload: response.data.items,
+    });
   } catch (err) {
-    console.log(err);
+    switch (err.response.status) {
+      case 500:
+        dispatch({
+          type: "update_error",
+          payload: "Server error, please try again.",
+        });
+        break;
+      default:
+        dispatch({
+          type: "update_error",
+          payload: "Something went wrong with getting exercises.",
+        });
+    }
   }
+  dispatch({
+    type: "set_loading",
+    payload: false,
+  });
 };
 
 export const { Provider, Context } = createDataContext(
   exerciseReducer,
   { createExercise, getExercises },
-  { errorMessage: "", exercises: {} }
+  { errorMessage: "", exercises: [], loading: false }
 );

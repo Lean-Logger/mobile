@@ -175,7 +175,7 @@ const logout = (dispatch) => async () => {
         },
       }
     );
-    await AsyncStorage.removeItem(token);
+    await AsyncStorage.removeItem("token");
     navigate("Login");
   } catch (err) {
     dispatch({
