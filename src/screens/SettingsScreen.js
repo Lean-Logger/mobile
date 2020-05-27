@@ -7,8 +7,6 @@ const SettingsScreen = ({ navigation }) => {
   const { state, logout } = useContext(AuthContext);
   const [deleteModal, setDeleteModal] = useState(false);
 
-  const token = state.token;
-
   const toggleModal = () => {
     setDeleteModal(!deleteModal);
   };
@@ -16,7 +14,6 @@ const SettingsScreen = ({ navigation }) => {
   const deleteAccount = () => {
     setDeleteModal(!deleteModal);
     if (deleteModal) {
-      console.log(token);
       navigation.navigate("Login");
     }
   };
@@ -53,7 +50,7 @@ const SettingsScreen = ({ navigation }) => {
           logout();
         }}
       >
-        <Text style={styles.link}>Sign out</Text>
+        <Text style={styles.link}>Log out</Text>
       </TouchableOpacity>
     </>
   );
@@ -82,10 +79,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 20,
     textAlign: "center",
-  },
-  link: {
-    fontSize: 18,
-    color: "#fff",
   },
 });
 
