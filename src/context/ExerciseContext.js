@@ -10,7 +10,16 @@ const exerciseReducer = (state, action) => {
     case "update_errors":
       return { ...state, errorMessage: action.payload };
     case "get_exercises":
-      return { ...state, exercises: action.payload, errorMessage: "" };
+      return { ...state, exercises: action.payload };
+    case "delete_exercise":
+      return {
+        ...state,
+        exercises: [
+          ...state.exercises.filter(
+            (exercise) => exercise.id !== action.payload
+          ),
+        ],
+      };
     case "set_loading":
       return { ...state, loading: action.payload };
     default:
@@ -128,6 +137,10 @@ const getExercises = (dispatch) => async () => {
       type: "get_exercises",
       payload: response.data.items,
     });
+    dispatch({
+      type: "clear_errors",
+      payload: "",
+    });
   } catch (err) {
     switch (err.response.status) {
       case 500:
@@ -149,8 +162,49 @@ const getExercises = (dispatch) => async () => {
   });
 };
 
+const deleteExercise = (dispatch) => async (id) => {
+  dispatch({
+    type: "set_loading",
+    payload: true,
+  });
+  const token = await AsyncStorage.getItem("token");
+  try {
+    const response = await leanLoggerApi.delete("/exercises/" + id, {
+      headers: {
+        "X-Login-Token": token,
+      },
+    });
+    dispatch({
+      type: "delete_exercise",
+      payload: id,
+    });
+    dispatch({
+      type: "clear_errors",
+      payload: "",
+    });
+  } catch (err) {
+    switch (err.response.status) {
+      case 500:
+        dispatch({
+          type: "update_errors",
+          payload: "Server error, please try again.",
+        });
+        break;
+      default:
+        dispatch({
+          type: "update_errors",
+          payload: "Something went wrong with deleting the exercise.",
+        });
+    }
+  }
+  dispatch({
+    type: "set_loading",
+    payload: false,
+  });
+};
+
 export const { Provider, Context } = createDataContext(
   exerciseReducer,
-  { createExercise, getExercises },
+  { createExercise, getExercises, deleteExercise },
   { errorMessage: "", exercises: [], loading: false }
 );

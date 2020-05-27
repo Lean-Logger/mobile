@@ -13,8 +13,10 @@ import { Feather } from "@expo/vector-icons";
 import { Context as ExerciseContext } from "../context/ExerciseContext";
 
 const ExerciseLibraryScreen = ({ navigation }) => {
-  const [modal, setModal] = useState(false);
-  const { state, getExercises } = useContext(ExerciseContext);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [exerciseId, setExerciseId] = useState("");
+  const [exerciseName, setExerciseName] = useState("");
+  const { state, getExercises, deleteExercise } = useContext(ExerciseContext);
 
   useEffect(() => {
     getExercises();
@@ -28,34 +30,62 @@ const ExerciseLibraryScreen = ({ navigation }) => {
     };
   }, []);
 
+  const setModalInfo = (id, name) => {
+    setExerciseId(id);
+    setExerciseName(name);
+    toggleModal();
+  };
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
+
   const DataDisplay = ({ exercises }) =>
     exercises.length > 0 ? (
-      <FlatList
-        data={state.exercises}
-        keyExtractor={(item, index) => item.id.toString()}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity style={styles.exercise}>
-              <Text style={styles.name}>{item.name}</Text>
-              <TouchableOpacity onPress={toggleModal}>
-                <Feather style={styles.deleteIcon} name="trash-2" />
+      <>
+        <FlatList
+          data={state.exercises}
+          keyExtractor={(item, index) => item.id.toString()}
+          renderItem={({ item }) => {
+            return (
+              <TouchableOpacity style={styles.exercise}>
+                <Text style={styles.name}>{item.name}</Text>
+                <TouchableOpacity
+                  onPress={() => setModalInfo(item.id, item.name)}
+                >
+                  <Feather style={styles.deleteIcon} name="trash-2" />
+                </TouchableOpacity>
               </TouchableOpacity>
-            </TouchableOpacity>
-          );
-        }}
-      />
+            );
+          }}
+        />
+        <Modal isVisible={modalVisible}>
+          <View style={styles.modal}>
+            <Text style={styles.modalText}>
+              Are you sure you would like to delete {exerciseName}?
+            </Text>
+            <View style={styles.buttons}>
+              <TouchableOpacity style={styles.button} onPress={toggleModal}>
+                <Text style={styles.link}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  deleteExercise(exerciseId);
+                  toggleModal();
+                }}
+              >
+                <Text style={styles.link}>Delete Exercise</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      </>
     ) : (
       <Text style={styles.alert}>
         You don't have any exercises, why not add one?
       </Text>
     );
-
-  const toggleModal = () => {
-    setModal(!modal);
-    if (modal) {
-      navigation.navigate("ExerciseLibrary");
-    }
-  };
 
   return (
     <>
@@ -69,21 +99,6 @@ const ExerciseLibraryScreen = ({ navigation }) => {
       ) : (
         <DataDisplay exercises={state.exercises} />
       )}
-      <Modal isVisible={modal}>
-        <View style={styles.modal}>
-          <Text style={styles.modalText}>
-            Are you sure you would like to delete this exercise?
-          </Text>
-          <View style={styles.buttons}>
-            <TouchableOpacity style={styles.button} onPress={toggleModal}>
-              <Text style={styles.link}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={toggleModal}>
-              <Text style={styles.link}>Delete Exercise</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </>
   );
 };
