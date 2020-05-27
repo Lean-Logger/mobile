@@ -5,9 +5,9 @@ import { navigate } from "../navigationRef";
 
 const authReducer = (state, action) => {
   switch (action.type) {
-    case "clear_error":
+    case "clear_errors":
       return { ...state, errorMessage: action.payload, alertMessage: "" };
-    case "update_error":
+    case "update_errors":
       return { ...state, errorMessage: action.payload, alertMessage: "" };
     case "update_alert":
       return { ...state, errorMessage: "", alertMessage: action.payload };
@@ -30,7 +30,7 @@ const login = (dispatch) => async ({ email, password }) => {
       const response = await leanLoggerApi.post("/login", loginDetails);
       await AsyncStorage.setItem("token", response.data.login_token);
       dispatch({
-        type: "clear_error",
+        type: "clear_errors",
         payload: "",
       });
       navigate("Home");
@@ -38,25 +38,25 @@ const login = (dispatch) => async ({ email, password }) => {
       switch (err.response.status) {
         case 404:
           dispatch({
-            type: "update_error",
+            type: "update_errors",
             payload: "Cannot find a user with those details, please try again.",
           });
           break;
         case 422:
           dispatch({
-            type: "update_error",
+            type: "update_errors",
             payload: "Please enter a valid email address.",
           });
           break;
         case 500:
           dispatch({
-            type: "update_error",
+            type: "update_errors",
             payload: "Server error, please try again.",
           });
           break;
         default:
           dispatch({
-            type: "update_error",
+            type: "update_errors",
             payload: "Something went wrong with log in.",
           });
       }
@@ -64,12 +64,12 @@ const login = (dispatch) => async ({ email, password }) => {
   } else {
     if (loginDetails.email === "" || loginDetails.password === "") {
       dispatch({
-        type: "update_error",
+        type: "update_errors",
         payload: "Please enter an email address and password.",
       });
     } else {
       dispatch({
-        type: "update_error",
+        type: "update_errors",
         payload: "Please enter a valid email address.",
       });
     }
@@ -102,7 +102,7 @@ const register = (dispatch) => async ({ email, password, opt_in }) => {
       });
       await AsyncStorage.setItem("token", loginResponse.data.login_token);
       dispatch({
-        type: "clear_error",
+        type: "clear_errors",
         payload: "",
       });
       navigate("Home");
@@ -110,7 +110,7 @@ const register = (dispatch) => async ({ email, password, opt_in }) => {
       switch (err.response.status) {
         case 404:
           dispatch({
-            type: "update_error",
+            type: "update_errors",
             payload: "Cannot find a user with those details, please try again.",
           });
           break;
@@ -120,25 +120,25 @@ const register = (dispatch) => async ({ email, password, opt_in }) => {
             "The email has already been taken."
           ) {
             dispatch({
-              type: "update_error",
+              type: "update_errors",
               payload: "The email address is already in use, please try again.",
             });
           } else {
             dispatch({
-              type: "update_error",
+              type: "update_errors",
               payload: "Please enter a valid email address.",
             });
           }
           break;
         case 500:
           dispatch({
-            type: "update_error",
+            type: "update_errors",
             payload: "Server error, please try again.",
           });
           break;
         default:
           dispatch({
-            type: "update_error",
+            type: "update_errors",
             payload: "Something went wrong with register.",
           });
       }
@@ -146,17 +146,17 @@ const register = (dispatch) => async ({ email, password, opt_in }) => {
   } else {
     if (registerDetails.email === "" || registerDetails.password === "") {
       dispatch({
-        type: "update_error",
+        type: "update_errors",
         payload: "Please enter an email address and a password.",
       });
     } else if (!emailCheck.test(String(registerDetails.email).toLowerCase())) {
       dispatch({
-        type: "update_error",
+        type: "update_errors",
         payload: "Please enter a valid email address.",
       });
     } else if (registerDetails.opt_in !== 1) {
       dispatch({
-        type: "update_error",
+        type: "update_errors",
         payload: "Please agree to the Terms and Conditions.",
       });
     }
@@ -179,7 +179,7 @@ const logout = (dispatch) => async () => {
     navigate("Login");
   } catch (err) {
     dispatch({
-      type: "update_error",
+      type: "update_errors",
       payload: "Something went wrong with log out",
     });
   }
@@ -198,18 +198,18 @@ const requestpasswordreset = (dispatch) => async (email) => {
       });
     } catch (err) {
       dispatch({
-        type: "update_error",
+        type: "update_errors",
         payload: "Something went wrong with reset password.",
       });
     }
   } else if (email === "") {
     dispatch({
-      type: "update_error",
+      type: "update_errors",
       payload: "Please ensure you have filled out your email address.",
     });
   } else {
     dispatch({
-      type: "update_error",
+      type: "update_errors",
       payload: "Please provide a valid email address.",
     });
   }
@@ -228,18 +228,18 @@ const passwordreset = (dispatch) => async (email) => {
       });
     } catch (err) {
       dispatch({
-        type: "update_error",
+        type: "update_errors",
         payload: "Something went wrong with reset password.",
       });
     }
   } else if (email === "") {
     dispatch({
-      type: "update_error",
+      type: "update_errors",
       payload: "Please ensure you have filled out your email address.",
     });
   } else {
     dispatch({
-      type: "update_error",
+      type: "update_errors",
       payload: "Please provide a valid email address.",
     });
   }

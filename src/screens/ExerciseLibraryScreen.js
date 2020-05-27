@@ -38,7 +38,7 @@ const ExerciseLibraryScreen = ({ navigation }) => {
             <TouchableOpacity style={styles.exercise}>
               <Text style={styles.name}>{item.name}</Text>
               <TouchableOpacity onPress={toggleModal}>
-                <Feather style={styles.deleteIcon} name="trash" />
+                <Feather style={styles.deleteIcon} name="trash-2" />
               </TouchableOpacity>
             </TouchableOpacity>
           );

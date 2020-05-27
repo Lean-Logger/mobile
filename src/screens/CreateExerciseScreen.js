@@ -13,7 +13,7 @@ const CreateExerciseScreen = () => {
   const { state, createExercise } = useContext(ExerciseContext);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [type, setType] = useState("weighted_reps");
+  const [type, setType] = useState("");
 
   return (
     <View style={styles.page}>
@@ -21,7 +21,7 @@ const CreateExerciseScreen = () => {
         {state.errorMessage ? (
           <Text style={styles.error}>{state.errorMessage}</Text>
         ) : null}
-        <Text style={styles.label}>Name:</Text>
+        <Text style={styles.label}>Name:*</Text>
         <TextInput
           onChangeText={setName}
           placeholder="E.g: Bicep Curl Machine"
@@ -35,7 +35,7 @@ const CreateExerciseScreen = () => {
           style={styles.input}
           value={description}
         />
-        <Text style={styles.label}>Type:</Text>
+        <Text style={styles.label}>Type:*</Text>
         <View style={styles.pickerInput}>
           <Picker
             itemStyle={styles.pickerItem}
@@ -43,6 +43,7 @@ const CreateExerciseScreen = () => {
             selectedValue={type}
             style={styles.picker}
           >
+            <Picker.Item label="Please select a type..." value="" />
             <Picker.Item label="Weighted reps" value="weighted_reps" />
             <Picker.Item label="Non-weighted reps" value="non_weighted_reps" />
             <Picker.Item label="Duration" value="duration" />
