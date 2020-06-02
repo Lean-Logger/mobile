@@ -48,7 +48,12 @@ const ExerciseLibraryScreen = ({ navigation }) => {
           keyExtractor={(item, index) => item.id.toString()}
           renderItem={({ item }) => {
             return (
-              <TouchableOpacity style={styles.exercise}>
+              <TouchableOpacity
+                style={styles.exercise}
+                onPress={() =>
+                  navigation.navigate("ExerciseDetail", { id: item.id })
+                }
+              >
                 <Text style={styles.name}>{item.name}</Text>
                 <TouchableOpacity
                   onPress={() => setModalInfo(item.id, item.name)}
