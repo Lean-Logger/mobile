@@ -1,19 +1,20 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
-  View,
+  Switch,
   Text,
   TextInput,
   TouchableOpacity,
-  Switch,
+  View,
 } from "react-native";
+
 import { Context as AuthContext } from "../context/AuthContext";
 
 const RegisterScreen = ({ navigation }) => {
-  const { state, register, signin } = useContext(AuthContext);
+  const { register, state } = useContext(AuthContext);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [opt_in, setOpt_in] = useState(false);
+  const [password, setPassword] = useState("");
 
   const toggleOptIn = () => {
     setOpt_in(!opt_in);
@@ -53,16 +54,16 @@ const RegisterScreen = ({ navigation }) => {
           />
         </View>
         <TouchableOpacity
-          style={styles.button}
           onPress={() => {
-            register({ email, password, opt_in });
+            register({ email, opt_in, password });
           }}
+          style={styles.button}
         >
           <Text style={styles.link}>Register</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
           onPress={() => navigation.navigate("Login")}
+          style={styles.button}
         >
           <Text style={styles.link}>Cancel</Text>
         </TouchableOpacity>
@@ -78,25 +79,22 @@ RegisterScreen.navigationOptions = () => {
 };
 
 const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    justifyContent: "space-around",
-  },
-  form: {
-    backgroundColor: "white",
-    paddingHorizontal: 40,
-    paddingVertical: 20,
-  },
-  title: {
-    textAlign: "center",
-    fontSize: 34,
-    marginBottom: 20,
+  button: {
+    alignItems: "center",
+    backgroundColor: "#019ee1",
+    marginBottom: 10,
+    padding: 5,
   },
   error: {
     color: "#FF0000",
     fontSize: 16,
     marginBottom: 5,
     textAlign: "center",
+  },
+  form: {
+    backgroundColor: "white",
+    paddingHorizontal: 40,
+    paddingVertical: 20,
   },
   input: {
     borderWidth: 1,
@@ -105,24 +103,27 @@ const styles = StyleSheet.create({
     padding: 5,
     marginBottom: 20,
   },
+  link: {
+    color: "#fff",
+    fontSize: 18,
+  },
+  page: {
+    flex: 1,
+    justifyContent: "space-around",
+  },
+  switch: {
+    marginLeft: 5,
+  },
   terms: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
   },
-  switch: {
-    marginLeft: 5,
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#019ee1",
-    marginBottom: 10,
-    padding: 5,
-  },
-  link: {
-    color: "#fff",
-    fontSize: 18,
+  title: {
+    textAlign: "center",
+    fontSize: 34,
+    marginBottom: 20,
   },
 });
 

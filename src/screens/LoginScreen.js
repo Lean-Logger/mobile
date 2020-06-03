@@ -1,15 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
-  View,
   Text,
   TextInput,
   TouchableOpacity,
+  View,
 } from "react-native";
+
 import { Context as AuthContext } from "../context/AuthContext";
 
 const LoginScreen = ({ navigation }) => {
-  const { state, login } = useContext(AuthContext);
+  const { login, state } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -39,22 +40,22 @@ const LoginScreen = ({ navigation }) => {
           value={password}
         />
         <TouchableOpacity
-          style={styles.button}
           onPress={() => {
             login({ email, password });
           }}
+          style={styles.button}
         >
           <Text style={styles.link}>Log In</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
           onPress={() => navigation.navigate("PasswordReset")}
+          style={styles.button}
         >
           <Text style={styles.link}>Forgot password? Reset password here</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
           onPress={() => navigation.navigate("Register")}
+          style={styles.button}
         >
           <Text style={styles.link}>No account? Register here</Text>
         </TouchableOpacity>
@@ -70,25 +71,22 @@ LoginScreen.navigationOptions = () => {
 };
 
 const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    justifyContent: "space-around",
-  },
-  form: {
-    backgroundColor: "white",
-    paddingHorizontal: 40,
-    paddingVertical: 20,
-  },
-  title: {
-    textAlign: "center",
-    fontSize: 34,
-    marginBottom: 20,
+  button: {
+    alignItems: "center",
+    backgroundColor: "#019ee1",
+    marginBottom: 10,
+    padding: 5,
   },
   error: {
     color: "#FF0000",
     fontSize: 16,
     marginBottom: 5,
     textAlign: "center",
+  },
+  form: {
+    backgroundColor: "white",
+    paddingHorizontal: 40,
+    paddingVertical: 20,
   },
   input: {
     borderWidth: 1,
@@ -97,15 +95,18 @@ const styles = StyleSheet.create({
     padding: 5,
     marginBottom: 20,
   },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#019ee1",
-    marginBottom: 10,
-    padding: 5,
-  },
   link: {
     color: "#fff",
     fontSize: 18,
+  },
+  page: {
+    flex: 1,
+    justifyContent: "space-around",
+  },
+  title: {
+    textAlign: "center",
+    fontSize: 34,
+    marginBottom: 20,
   },
 });
 

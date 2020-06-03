@@ -1,22 +1,22 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
-  StyleSheet,
-  View,
-  Text,
-  Button,
-  TouchableOpacity,
-  FlatList,
   ActivityIndicator,
+  Button,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import Modal from "react-native-modal";
 import { Feather } from "@expo/vector-icons";
 import { Context as ExerciseContext } from "../context/ExerciseContext";
 
 const ExerciseLibraryScreen = ({ navigation }) => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const { deleteExercise, getExercises, state } = useContext(ExerciseContext);
   const [exerciseId, setExerciseId] = useState("");
   const [exerciseName, setExerciseName] = useState("");
-  const { state, getExercises, deleteExercise } = useContext(ExerciseContext);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     getExercises();
@@ -48,7 +48,12 @@ const ExerciseLibraryScreen = ({ navigation }) => {
           keyExtractor={(item, index) => item.id.toString()}
           renderItem={({ item }) => {
             return (
-              <TouchableOpacity style={styles.exercise}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("ExerciseDetail", { id: item.id })
+                }
+                style={styles.exercise}
+              >
                 <Text style={styles.name}>{item.name}</Text>
                 <TouchableOpacity
                   onPress={() => setModalInfo(item.id, item.name)}
@@ -62,18 +67,18 @@ const ExerciseLibraryScreen = ({ navigation }) => {
         <Modal isVisible={modalVisible}>
           <View style={styles.modal}>
             <Text style={styles.modalText}>
-              Are you sure you would like to delete {exerciseName}?
+              Are you sure you would like to delete "{exerciseName}"?
             </Text>
             <View style={styles.buttons}>
               <TouchableOpacity style={styles.button} onPress={toggleModal}>
                 <Text style={styles.link}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.button}
                 onPress={() => {
                   deleteExercise(exerciseId);
                   toggleModal();
                 }}
+                style={styles.button}
               >
                 <Text style={styles.link}>Delete Exercise</Text>
               </TouchableOpacity>
@@ -113,18 +118,28 @@ ExerciseLibraryScreen.navigationOptions = ({ navigation }) => {
         <Feather name="plus" size={30} />
       </TouchableOpacity>
     ),
+    title: "Exercise Library",
   };
 };
 
 const styles = StyleSheet.create({
-  indicator: {
-    flex: 1,
-    justifyContent: "space-around",
-  },
   alert: {
     fontSize: 16,
     marginTop: 15,
     textAlign: "center",
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#019ee1",
+    marginBottom: 10,
+    padding: 5,
+  },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  deleteIcon: {
+    fontSize: 24,
   },
   error: {
     color: "#FF0000",
@@ -139,21 +154,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 10,
   },
-  name: {
-    fontSize: 24,
-  },
-  deleteIcon: {
-    fontSize: 24,
-  },
-  buttons: {
-    flexDirection: "row",
+  indicator: {
+    flex: 1,
     justifyContent: "space-around",
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#019ee1",
-    marginBottom: 10,
-    padding: 5,
   },
   link: {
     fontSize: 18,
@@ -167,6 +170,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 20,
     textAlign: "center",
+  },
+  name: {
+    fontSize: 24,
   },
 });
 
