@@ -1,18 +1,18 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
-  View,
+  Picker,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  Picker,
+  View,
 } from "react-native";
 import { Context as ExerciseContext } from "../context/ExerciseContext";
 
 const CreateExerciseScreen = () => {
-  const { state, createExercise } = useContext(ExerciseContext);
-  const [name, setName] = useState("");
+  const { createExercise, state } = useContext(ExerciseContext);
   const [description, setDescription] = useState("");
+  const [name, setName] = useState("");
   const [type, setType] = useState("");
 
   return (
@@ -39,21 +39,21 @@ const CreateExerciseScreen = () => {
         <View style={styles.pickerInput}>
           <Picker
             itemStyle={styles.pickerItem}
-            onValueChange={setType}
+            onValueChange={(type) => setType(type)}
             selectedValue={type}
             style={styles.picker}
           >
             <Picker.Item label="Please select a type..." value="" />
-            <Picker.Item label="Weighted reps" value="weighted_reps" />
-            <Picker.Item label="Non-weighted reps" value="non_weighted_reps" />
             <Picker.Item label="Duration" value="duration" />
+            <Picker.Item label="Non-weighted reps" value="non_weighted_reps" />
+            <Picker.Item label="Weighted reps" value="weighted_reps" />
           </Picker>
         </View>
         <TouchableOpacity
-          style={styles.button}
           onPress={() => {
-            createExercise({ name, description, type });
+            createExercise({ description, name, type });
           }}
+          style={styles.button}
         >
           <Text style={styles.link}>Add Exercise</Text>
         </TouchableOpacity>
@@ -69,14 +69,11 @@ CreateExerciseScreen.navigationOptions = () => {
 };
 
 const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    justifyContent: "space-around",
-  },
-  form: {
-    backgroundColor: "white",
-    paddingHorizontal: 40,
-    paddingVertical: 20,
+  button: {
+    alignItems: "center",
+    backgroundColor: "#019ee1",
+    marginBottom: 10,
+    padding: 5,
   },
   error: {
     color: "#FF0000",
@@ -84,39 +81,42 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     textAlign: "center",
   },
+  form: {
+    backgroundColor: "#fff",
+    paddingHorizontal: 40,
+    paddingVertical: 20,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#000",
+    fontSize: 22,
+    marginBottom: 20,
+    padding: 5,
+  },
   label: {
     fontSize: 16,
     marginBottom: 5,
   },
-  input: {
-    borderWidth: 1,
-    borderColor: "black",
-    fontSize: 22,
-    padding: 5,
-    marginBottom: 20,
+  link: {
+    color: "#fff",
+    fontSize: 18,
   },
-  pickerInput: {
-    borderWidth: 1,
-    borderColor: "black",
-    marginBottom: 20,
+  page: {
+    flex: 1,
+    justifyContent: "space-around",
   },
   picker: {
     height: 52,
   },
+  pickerInput: {
+    borderColor: "#000",
+    borderWidth: 1,
+    marginBottom: 20,
+  },
   pickerItem: {
-    height: 50,
-    borderWidth: 4,
     borderColor: "white",
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#019ee1",
-    marginBottom: 10,
-    padding: 5,
-  },
-  link: {
-    color: "#fff",
-    fontSize: 18,
+    borderWidth: 4,
+    height: 50,
   },
 });
 
