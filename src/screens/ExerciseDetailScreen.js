@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { EvilIcons } from "@expo/vector-icons";
+import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import { Context as ExerciseContext } from "../context/ExerciseContext";
 
 const ExerciseDetailScreen = ({ navigation }) => {
@@ -56,6 +56,17 @@ const ExerciseDetailScreen = ({ navigation }) => {
 
 ExerciseDetailScreen.navigationOptions = ({ navigation }) => {
   return {
+    headerLeft: () => (
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("ExerciseLibrary");
+        }}
+        style={styles.headerButton}
+      >
+        <Ionicons name="ios-arrow-back" size={28} color="black" />
+        <Text style={styles.headerButtonText}>Back</Text>
+      </TouchableOpacity>
+    ),
     headerRight: () => (
       <TouchableOpacity
         onPress={() =>
@@ -79,6 +90,15 @@ const styles = StyleSheet.create({
     fontSize: 22,
     paddingVertical: 5,
     marginBottom: 20,
+  },
+  headerButton: {
+    alignItems: "center",
+    flexDirection: "row",
+    padding: 5,
+  },
+  headerButtonText: {
+    fontSize: 18,
+    marginLeft: 5,
   },
   label: {
     fontSize: 16,

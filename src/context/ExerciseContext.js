@@ -42,7 +42,7 @@ const createExercise = (dispatch) => async ({ description, name, type }) => {
   const token = await AsyncStorage.getItem("token");
   const exerciseDetails = { description, name, type };
 
-  if (exerciseDetails.name !== "" && exerciseDetails.type !== "") {
+  if (exerciseDetails.name.trim() !== "" && exerciseDetails.type !== "") {
     try {
       const response = await leanLoggerApi.post("/exercises", exerciseDetails, {
         headers: {
@@ -109,13 +109,13 @@ const createExercise = (dispatch) => async ({ description, name, type }) => {
       }
     }
   } else {
-    if (exerciseDetails.name === "" && exerciseDetails.type === "") {
+    if (exerciseDetails.name.trim() === "" && exerciseDetails.type === "") {
       dispatch({
         type: "update_error",
         payload: "Please enter an exercise name and type.",
       });
     } else {
-      if (exerciseDetails.name === "") {
+      if (exerciseDetails.name.trim() === "") {
         dispatch({
           type: "update_error",
           payload: "Please enter an exercise name.",

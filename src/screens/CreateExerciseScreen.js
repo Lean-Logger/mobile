@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Picker,
   StyleSheet,
@@ -7,13 +7,34 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Modal from "react-native-modal";
+import { Ionicons } from "@expo/vector-icons";
 import { Context as ExerciseContext } from "../context/ExerciseContext";
 
-const CreateExerciseScreen = () => {
+const CreateExerciseScreen = ({ navigation }) => {
   const { createExercise, state } = useContext(ExerciseContext);
   const [description, setDescription] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
+
+  const checkForm = () => {
+    if (description.trim() !== "" || name.trim() !== "" || type !== "") {
+      toggleModal();
+    } else {
+      navigation.navigate("ExerciseLibrary");
+    }
+  };
+
+  useEffect(() => {
+    navigation.setParams({
+      checkForm: checkForm,
+    });
+  }, [description, name, type]);
 
   return (
     <View style={styles.page}>
@@ -58,12 +79,44 @@ const CreateExerciseScreen = () => {
           <Text style={styles.link}>Add Exercise</Text>
         </TouchableOpacity>
       </View>
+      <Modal isVisible={modalVisible}>
+        <View style={styles.modal}>
+          <Text style={styles.modalText}>
+            Are you sure you would like to discard this exercise?
+          </Text>
+          <View style={styles.buttons}>
+            <TouchableOpacity style={styles.button} onPress={toggleModal}>
+              <Text style={styles.link}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("ExerciseLibrary");
+                toggleModal();
+              }}
+              style={styles.button}
+            >
+              <Text style={styles.link}>Discard Exercise</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
 
-CreateExerciseScreen.navigationOptions = () => {
+CreateExerciseScreen.navigationOptions = ({ navigation }) => {
   return {
+    headerLeft: () => (
+      <TouchableOpacity
+        onPress={() => {
+          navigation.getParam("checkForm")();
+        }}
+        style={styles.headerButton}
+      >
+        <Ionicons name="ios-arrow-back" size={28} color="black" />
+        <Text style={styles.headerButtonText}>Back</Text>
+      </TouchableOpacity>
+    ),
     title: "Add Exercise",
   };
 };
@@ -75,6 +128,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 5,
   },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
   error: {
     color: "#FF0000",
     fontSize: 16,
@@ -85,6 +142,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: 40,
     paddingVertical: 20,
+  },
+  headerButton: {
+    alignItems: "center",
+    flexDirection: "row",
+    padding: 5,
+  },
+  headerButtonText: {
+    fontSize: 18,
+    marginLeft: 5,
   },
   input: {
     borderWidth: 1,
@@ -100,6 +166,15 @@ const styles = StyleSheet.create({
   link: {
     color: "#fff",
     fontSize: 18,
+  },
+  modal: {
+    backgroundColor: "white",
+    padding: 20,
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: "center",
   },
   page: {
     flex: 1,
