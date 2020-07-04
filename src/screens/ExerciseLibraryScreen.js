@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import Modal from "react-native-modal";
+import Swipeable from "react-native-swipeable";
 import { Feather } from "@expo/vector-icons";
 import { Context as ExerciseContext } from "../context/ExerciseContext";
 
@@ -30,6 +31,12 @@ const ExerciseLibraryScreen = ({ navigation }) => {
     };
   }, []);
 
+  const deleteButton = (
+    <View style={styles.deleteButton}>
+      <Feather name="trash-2" size={24} style={styles.deleteIcon} />
+    </View>
+  );
+
   const setModalInfo = (id, name) => {
     setExerciseId(id);
     setExerciseName(name);
@@ -48,19 +55,20 @@ const ExerciseLibraryScreen = ({ navigation }) => {
           keyExtractor={(item, index) => item.id.toString()}
           renderItem={({ item }) => {
             return (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("ExerciseDetail", { id: item.id })
-                }
-                style={styles.exercise}
+              <Swipeable
+                onRightActionRelease={() => setModalInfo(item.id, item.name)}
+                rightActionActivationDistance={40}
+                rightContent={deleteButton}
               >
-                <Text style={styles.name}>{item.name}</Text>
                 <TouchableOpacity
-                  onPress={() => setModalInfo(item.id, item.name)}
+                  onPress={() =>
+                    navigation.navigate("ExerciseDetail", { id: item.id })
+                  }
+                  style={styles.exercise}
                 >
-                  <Feather style={styles.deleteIcon} name="trash-2" />
+                  <Text style={styles.name}>{item.name}</Text>
                 </TouchableOpacity>
-              </TouchableOpacity>
+              </Swipeable>
             );
           }}
         />
@@ -112,7 +120,7 @@ ExerciseLibraryScreen.navigationOptions = ({ navigation }) => {
   return {
     headerRight: () => (
       <TouchableOpacity
-        style={styles.headerIcon}
+        style={styles.headerButton}
         onPress={() => navigation.navigate("CreateExercise")}
       >
         <Feather name="plus" size={30} />
@@ -138,8 +146,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
   },
+  deleteButton: {
+    backgroundColor: "#FF0000",
+    borderColor: "#000",
+    borderBottomWidth: 1,
+    padding: 12,
+  },
   deleteIcon: {
-    fontSize: 24,
+    color: "#FFFFFF",
   },
   error: {
     color: "#FF0000",
@@ -153,6 +167,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     padding: 10,
+  },
+  headerButton: {
+    padding: 5,
   },
   indicator: {
     flex: 1,
