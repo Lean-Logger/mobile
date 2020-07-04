@@ -18,6 +18,7 @@
     "@react-native-community/masked-view": "^0.1.6",
     "axios": "^0.19.2",
     "expo": "~37.0.3",
+    "logkitty": "^0.7.1",
     "mem": "^6.1.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
