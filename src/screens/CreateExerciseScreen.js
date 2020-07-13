@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
-  Picker,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+import { Picker } from "@react-native-community/picker";
 import Modal from "react-native-modal";
 import { Ionicons } from "@expo/vector-icons";
 import { Context as ExerciseContext } from "../context/ExerciseContext";
@@ -57,19 +57,17 @@ const CreateExerciseScreen = ({ navigation }) => {
           value={description}
         />
         <Text style={styles.label}>Type:*</Text>
-        <View style={styles.pickerInput}>
-          <Picker
-            itemStyle={styles.pickerItem}
-            onValueChange={(type) => setType(type)}
-            selectedValue={type}
-            style={styles.picker}
-          >
-            <Picker.Item label="Please select a type..." value="" />
-            <Picker.Item label="Duration" value="duration" />
-            <Picker.Item label="Non-weighted reps" value="non_weighted_reps" />
-            <Picker.Item label="Weighted reps" value="weighted_reps" />
-          </Picker>
-        </View>
+        <Picker
+          itemStyle={styles.pickerItem}
+          onValueChange={(type) => setType(type)}
+          selectedValue={type}
+          style={styles.picker}
+        >
+          <Picker.Item label="Please select a type..." value="" />
+          <Picker.Item label="Duration" value="duration" />
+          <Picker.Item label="Non-weighted reps" value="non_weighted_reps" />
+          <Picker.Item label="Weighted reps" value="weighted_reps" />
+        </Picker>
         <TouchableOpacity
           onPress={() => {
             createExercise({ description, name, type });
@@ -181,17 +179,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   picker: {
-    height: 52,
-  },
-  pickerInput: {
     borderColor: "#000",
     borderWidth: 1,
     marginBottom: 20,
   },
   pickerItem: {
-    borderColor: "white",
-    borderWidth: 4,
     height: 50,
+    borderWidth: 4,
+    borderColor: "#fff",
   },
 });
 

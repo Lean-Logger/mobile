@@ -72,7 +72,6 @@ ExerciseDetailScreen.navigationOptions = ({ navigation }) => {
         onPress={() =>
           navigation.navigate("EditExercise", { id: navigation.getParam("id") })
         }
-        style={styles.headerIcon}
       >
         <EvilIcons name="pencil" size={35} />
       </TouchableOpacity>

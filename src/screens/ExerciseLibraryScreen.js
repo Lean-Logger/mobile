@@ -120,8 +120,8 @@ ExerciseLibraryScreen.navigationOptions = ({ navigation }) => {
   return {
     headerRight: () => (
       <TouchableOpacity
-        style={styles.headerButton}
         onPress={() => navigation.navigate("CreateExercise")}
+        style={styles.headerButton}
       >
         <Feather name="plus" size={30} />
       </TouchableOpacity>
